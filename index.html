@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebRTC Video Conference</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="status-wrapper">
+                <div class="status-badge" id="statusBadge">
+                    <div class="status-icon"></div>
+                    <span id="status">Not connected</span>
+                </div>
+            </div>
+            <div class="controls">
+                <button id="startBtn" class="action-btn">
+                    <i class="fas fa-camera"></i>
+                    <span>Start Camera</span>
+                </button>
+                <button id="connectBtn" class="action-btn" disabled>
+                    <i class="fas fa-plug"></i>
+                    <span>Connect</span>
+                </button>
+                <button id="endBtn" class="action-btn action-btn-danger" disabled>
+                    <i class="fas fa-phone-slash"></i>
+                    <span>End Call</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="video-grid">
+            <div class="video-container" data-label="You">
+                <video id="localVideo" autoplay playsinline muted></video>
+                <div class="video-controls">
+                    <button class="control-btn" id="toggleAudio" disabled>
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button class="control-btn" id="toggleVideo" disabled>
+                        <i class="fas fa-video"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="video-container" data-label="Peer">
+                <video id="remoteVideo" autoplay playsinline></video>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
