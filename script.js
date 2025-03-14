@@ -29,28 +29,22 @@ async function requestMediaPermissions() {
       video: { width: 1280, height: 720 },
       audio: true,
     });
-
-    // Ensure tracks are enabled by default
-    localStream.getAudioTracks().forEach((track) => (track.enabled = true));
-    localStream.getVideoTracks().forEach((track) => (track.enabled = true));
-
-    // Assign stream to video element
     localVideo.srcObject = localStream;
-
-    // Reset toggle states
-    isAudioEnabled = true;
-    isVideoEnabled = true;
-
-    // Reset UI button states
-    toggleAudioBtn.innerHTML = `<i class="fas fa-microphone"></i>`;
-    toggleAudioBtn.classList.remove("active");
-
-    toggleVideoBtn.innerHTML = `<i class="fas fa-video"></i>`;
-    toggleVideoBtn.classList.remove("active");
 
     // Enable the toggle buttons
     toggleAudioBtn.disabled = false;
     toggleVideoBtn.disabled = false;
+
+    // Make sure buttons reflect the current state
+    toggleAudioBtn.innerHTML = `<i class="fas fa-microphone${
+      isAudioEnabled ? "" : "-slash"
+    }"></i>`;
+    toggleAudioBtn.classList.toggle("active", !isAudioEnabled);
+
+    toggleVideoBtn.innerHTML = `<i class="fas fa-video${
+      isVideoEnabled ? "" : "-slash"
+    }"></i>`;
+    toggleVideoBtn.classList.toggle("active", !isVideoEnabled);
 
     return true;
   } catch (error) {
@@ -61,7 +55,7 @@ async function requestMediaPermissions() {
 }
 
 function initializeSocket() {
-  socket = io("http://192.168.133.68:3000");
+  socket = io("https://hirewise-backend-jcub.onrender.com");
 
   socket.on("connect", () => {
     updateStatus("Connected to server", true);
@@ -161,8 +155,16 @@ function endCall() {
   toggleAudioBtn.disabled = true;
   toggleVideoBtn.disabled = true;
 
+  // Reset the state variables
   isAudioEnabled = true;
   isVideoEnabled = true;
+
+  // Reset the button UI to match the new state
+  toggleAudioBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+  toggleAudioBtn.classList.remove("active");
+
+  toggleVideoBtn.innerHTML = '<i class="fas fa-video"></i>';
+  toggleVideoBtn.classList.remove("active");
 }
 
 function toggleAudio() {
